@@ -9,13 +9,13 @@
 
 class VulkanInstance {
 public:
+	vk::raii::Instance instance = nullptr;
+
 
 	void create_instance();
 	void setup_debug_messenger();
-
 private:
 	vk::raii::Context context;
-	vk::raii::Instance instance = nullptr;
 	vk::raii::DebugUtilsMessengerEXT debug_messenger = nullptr;
 
 	

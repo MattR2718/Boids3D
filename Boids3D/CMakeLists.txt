@@ -12,7 +12,8 @@ add_executable (Boids3D "Boids3D.cpp" "Boids3D.h"
                         "VulkanInstance.h"
                         "GraphicsDevice.cpp"
                         "GraphicsDevice.h"
-
+                        "PhysicalDevice.cpp"
+                        "PhysicalDevice.h"
 )
 
 if (CMAKE_VERSION VERSION_GREATER 3.12)
