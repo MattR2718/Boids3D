@@ -2,6 +2,7 @@
 
 #include "VulkanInstance.h"
 #include "PhysicalDevice.h"
+#include "LogicalDevice.h"
 
 class GraphicsDevice {
 public:
@@ -9,4 +10,5 @@ public:
 private:
 	VulkanInstance vulkan_instance;
 	PhysicalDevice physical_device;
+	LogicalDevice logical_device;
 };

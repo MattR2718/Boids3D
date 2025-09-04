@@ -19,10 +19,12 @@ public:
 		vk::KHRCreateRenderpass2ExtensionName
 	};
 
+	vk::raii::PhysicalDevice physical_device = nullptr;
+
+
 	void pick_physical_device(vk::raii::Instance* instance);
 
 private:
-	vk::raii::PhysicalDevice physical_device = nullptr;
 
 
 	uint32_t find_queue_families(VkPhysicalDevice device);
