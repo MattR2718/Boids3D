@@ -1,5 +1,16 @@
 #pragma once
 
+/*
+
+	Responsibilities: Manages the application window and its interaction with the operating system.
+
+	Owns: GLFWwindow*.
+
+	Manages: GLFW initialization/termination, window creation, and creating the vk::raii::SurfaceKHR.
+			It also handles user input and window events like resizing.
+
+*/
+
 #include "VulkanInclude.h"
 
 #define VK_USE_PLATFORM_WIN32_KHR
