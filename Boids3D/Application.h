@@ -4,7 +4,7 @@
 #include "Window.h"
 #include "GraphicsDevice.h"
 
-
+#include <print>
 
 class Application {
 public:
