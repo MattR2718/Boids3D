@@ -5,9 +5,15 @@
 # Add source to this project's executable.
 add_executable (Boids3D "Boids3D.cpp" "Boids3D.h" 
                         "Application.cpp"
+                        "Application.h"
                         "Window.cpp"
+                        "Window.h"
                         "VulkanInstance.cpp"
-                        "GraphicsDevice.cpp")
+                        "VulkanInstance.h"
+                        "GraphicsDevice.cpp"
+                        "GraphicsDevice.h"
+
+)
 
 if (CMAKE_VERSION VERSION_GREATER 3.12)
   set_property(TARGET Boids3D PROPERTY CXX_STANDARD 23)
