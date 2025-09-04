@@ -22,7 +22,7 @@ public:
 	vk::raii::PhysicalDevice physical_device = nullptr;
 
 
-	void pick_physical_device(vk::raii::Instance* instance);
+	void pick_physical_device(vk::raii::Instance& instance);
 
 private:
 

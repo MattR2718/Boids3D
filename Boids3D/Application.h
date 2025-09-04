@@ -13,8 +13,8 @@ public:
 
 private:
 
-	Window window;
 	GraphicsDevice graphics_device;
+	Window window;
 
 	void init_vulkan();
 	void main_loop();

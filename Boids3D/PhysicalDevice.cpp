@@ -1,7 +1,7 @@
 #include "PhysicalDevice.h"
 
-void PhysicalDevice::pick_physical_device(vk::raii::Instance* instance){
-    std::vector<vk::raii::PhysicalDevice> devices = (*instance).enumeratePhysicalDevices();
+void PhysicalDevice::pick_physical_device(vk::raii::Instance& instance){
+    std::vector<vk::raii::PhysicalDevice> devices = instance.enumeratePhysicalDevices();
     const auto devIter = std::ranges::find_if(devices,
         [&](auto const& device) {
             // Make sure supports Vulkan 1.3

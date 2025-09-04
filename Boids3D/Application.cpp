@@ -9,7 +9,7 @@ void Application::run(){
 }
 
 void Application::init_vulkan(){
-	graphics_device.init_graphics_device();
+	graphics_device.init_graphics_device(window);
 }
 
 void Application::main_loop(){
