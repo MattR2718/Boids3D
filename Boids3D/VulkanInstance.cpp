@@ -22,7 +22,7 @@ void VulkanInstance::create_instance(){
             { return strcmp(layerProperty.layerName, requiredLayer) == 0; });
         }))
     {
-        throw std::runtime_error("One or more required layers are not supported!");
+        throw std::runtime_error("ERROR [VulkanInstance::create_instance]: One or more required layers are not supported!");
     }
 
     // Get the required extensions.
@@ -36,7 +36,7 @@ void VulkanInstance::create_instance(){
             [requiredExtension](auto const& extensionProperty)
             { return strcmp(extensionProperty.extensionName, requiredExtension) == 0; }))
         {
-            throw std::runtime_error("Required extension not supported: " + std::string(requiredExtension));
+            throw std::runtime_error("ERROR [VulkanInstance::create_instance]: Required extension not supported: " + std::string(requiredExtension));
         }
     }
 
