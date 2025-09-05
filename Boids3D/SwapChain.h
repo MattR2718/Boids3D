@@ -17,12 +17,14 @@ public:
 	std::vector<vk::Image> swap_chain_images;
 
 	void create_swap_chain(vk::raii::PhysicalDevice& physical_device, vk::raii::Device& device, vk::raii::SurfaceKHR& surface, GLFWwindow* window, const std::array<uint32_t, 2>& queue_family_indices);
-
+	void create_image_views(vk::raii::Device& device);
 
 private:
 
 	vk::SurfaceFormatKHR surface_format;
 	vk::Extent2D swap_chain_extent;
+
+	std::vector<vk::raii::ImageView> swap_chain_image_views;
 
 	static vk::SurfaceFormatKHR choose_swap_surface_format(const std::vector<vk::SurfaceFormatKHR>& available_formats);
 	vk::PresentModeKHR choose_swap_present_mode(const std::vector<vk::PresentModeKHR>& available_present_modes);

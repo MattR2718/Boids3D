@@ -42,6 +42,21 @@ void SwapChain::create_swap_chain(vk::raii::PhysicalDevice& physical_device, vk:
 
 }
 
+void SwapChain::create_image_views(vk::raii::Device& device){
+	swap_chain_image_views.clear();
+
+	vk::ImageViewCreateInfo image_view_create_info{
+		.viewType = vk::ImageViewType::e2D,
+		.format = surface_format.format,
+		.subresourceRange = { vk::ImageAspectFlagBits::eColor, 0, 1, 0, 1 }
+	};
+
+	for (auto image : swap_chain_images) {
+		image_view_create_info.image = image;
+		swap_chain_image_views.emplace_back(device, image_view_create_info);
+	}
+}
+
 vk::SurfaceFormatKHR SwapChain::choose_swap_surface_format(const std::vector<vk::SurfaceFormatKHR>& available_formats){
 	const auto formatIt = std::ranges::find_if(available_formats,
 		[](const auto& format) {

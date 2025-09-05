@@ -15,6 +15,7 @@ void Application::init_vulkan(){
 								window.surface, 
 								window.p_window, 
 								graphics_device.logical_device.queue_family_indices);
+	swapchain.create_image_views(graphics_device.logical_device.device);
 }
 
 void Application::main_loop(){
