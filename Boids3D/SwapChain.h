@@ -1,4 +1,16 @@
 #pragma once
+
+/*
+	Responsibilities: Manages everything related to presenting images to the screen.
+
+	Owns: vk::raii::SwapchainKHR, std::vector<vk::Image>, std::vector<vk::raii::ImageView>.
+
+	Manages: Swap chain creation, image views, handling "out of date" errors, and recreation when the window is resized.
+
+*/
+
+
+
 #define NOMINMAX
 #include <vector>
 #include <cstdint>
