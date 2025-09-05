@@ -17,6 +17,7 @@
 #include "PhysicalDevice.h"
 #include "LogicalDevice.h"
 #include "Window.h"
+#include "Surface.h"
 
 class GraphicsDevice {
 public:
@@ -24,7 +25,7 @@ public:
 	PhysicalDevice physical_device;
 	LogicalDevice logical_device;
 
-	void init_graphics_device(Window& window);
+	void init_graphics_device(Surface& window);
 private:
 	
 };

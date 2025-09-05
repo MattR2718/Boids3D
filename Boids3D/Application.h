@@ -4,6 +4,7 @@
 #include "Window.h"
 #include "GraphicsDevice.h"
 #include "Swapchain.h"
+#include "Renderer.h"
 
 
 #include <print>
@@ -15,9 +16,9 @@ public:
 
 private:
 
-	GraphicsDevice graphics_device;
+	Renderer renderer;
 	Window window;
-	SwapChain swapchain;
+	
 
 	void init_vulkan();
 	void main_loop();

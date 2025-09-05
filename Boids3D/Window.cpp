@@ -23,13 +23,7 @@ void Window::poll_events(){
 	glfwPollEvents();
 }
 
-void Window::create_surface(vk::raii::Instance& instance){
-	VkSurfaceKHR _surface;
-	if (glfwCreateWindowSurface(*instance, p_window, nullptr, &_surface) != 0) {
-		throw std::runtime_error("ERROR [Window::create_surface]: Failed to create window surface");
-	}
-	surface = vk::raii::SurfaceKHR(instance, _surface);
-}
+
 
 
 void Window::cleanup() {

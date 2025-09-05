@@ -20,7 +20,9 @@ add_executable (Boids3D "Boids3D.cpp" "Boids3D.h"
                         "SwapChain.h"
                         "Pipeline.cpp"
                         "Pipeline.h"
-)
+                        "Renderer.cpp"
+                        "Renderer.h"
+ "Surface.cpp")
 
 if (CMAKE_VERSION VERSION_GREATER 3.12)
   set_property(TARGET Boids3D PROPERTY CXX_STANDARD 23)

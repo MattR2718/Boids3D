@@ -1,18 +1,18 @@
 #include "Swapchain.h"
 
-void SwapChain::create_swap_chain(vk::raii::PhysicalDevice& physical_device, vk::raii::Device& device, vk::raii::SurfaceKHR& surface, GLFWwindow* window, const std::array<uint32_t, 2>& queue_family_indices){
-	auto surface_capabilities = physical_device.getSurfaceCapabilitiesKHR(surface);
-	std::vector<vk::SurfaceFormatKHR> available_formats = physical_device.getSurfaceFormatsKHR(surface);
-	std::vector<vk::PresentModeKHR> available_present_modes = physical_device.getSurfacePresentModesKHR(surface);
+void SwapChain::create_swap_chain(GraphicsDevice& graphics_device, Surface& surface){
+	auto surface_capabilities = graphics_device.physical_device.physical_device.getSurfaceCapabilitiesKHR(surface.surface);
+	std::vector<vk::SurfaceFormatKHR> available_formats = graphics_device.physical_device.physical_device.getSurfaceFormatsKHR(surface.surface);
+	std::vector<vk::PresentModeKHR> available_present_modes = graphics_device.physical_device.physical_device.getSurfacePresentModesKHR(surface.surface);
 
 	surface_format = SwapChain::choose_swap_surface_format(available_formats);
-	swap_chain_extent = choose_swap_extent(surface_capabilities, window);
+	swap_chain_extent = choose_swap_extent(surface_capabilities, surface.p_window);
 	auto min_image_count = std::max(3u, surface_capabilities.minImageCount);
 	min_image_count = (surface_capabilities.maxImageCount > 0 && min_image_count > surface_capabilities.maxImageCount) ? surface_capabilities.maxImageCount : min_image_count;
 	
 	vk::SwapchainCreateInfoKHR swap_chain_create_info{
 		.flags = vk::SwapchainCreateFlagsKHR(),
-		.surface = surface,
+		.surface = surface.surface,
 		.minImageCount = min_image_count,
 		.imageFormat = surface_format.format,
 		.imageColorSpace = surface_format.colorSpace,
@@ -26,7 +26,7 @@ void SwapChain::create_swap_chain(vk::raii::PhysicalDevice& physical_device, vk:
 		.oldSwapchain = VK_NULL_HANDLE
 	};
 
-	if (queue_family_indices[0] == queue_family_indices[1]) {
+	if (graphics_device.logical_device.queue_family_indices[0] == graphics_device.logical_device.queue_family_indices[1]) {
 		swap_chain_create_info.imageSharingMode = vk::SharingMode::eExclusive;
 		swap_chain_create_info.queueFamilyIndexCount = 0;
 		swap_chain_create_info.pQueueFamilyIndices = nullptr;
@@ -34,15 +34,15 @@ void SwapChain::create_swap_chain(vk::raii::PhysicalDevice& physical_device, vk:
 	else {
 		swap_chain_create_info.imageSharingMode = vk::SharingMode::eConcurrent;
 		swap_chain_create_info.queueFamilyIndexCount = 2;
-		swap_chain_create_info.pQueueFamilyIndices = queue_family_indices.data();
+		swap_chain_create_info.pQueueFamilyIndices = graphics_device.logical_device.queue_family_indices.data();
 	}
 
-	swap_chain = vk::raii::SwapchainKHR(device, swap_chain_create_info);
+	swap_chain = vk::raii::SwapchainKHR(graphics_device.logical_device.device, swap_chain_create_info);
 	swap_chain_images = swap_chain.getImages();
 
 }
 
-void SwapChain::create_image_views(vk::raii::Device& device){
+void SwapChain::create_image_views(GraphicsDevice& graphics_device){
 	swap_chain_image_views.clear();
 
 	vk::ImageViewCreateInfo image_view_create_info{
@@ -53,7 +53,7 @@ void SwapChain::create_image_views(vk::raii::Device& device){
 
 	for (auto image : swap_chain_images) {
 		image_view_create_info.image = image;
-		swap_chain_image_views.emplace_back(device, image_view_create_info);
+		swap_chain_image_views.emplace_back(graphics_device.logical_device.device, image_view_create_info);
 	}
 }
 

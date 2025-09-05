@@ -28,14 +28,12 @@ class Window {
 public:
 	GLFWwindow* p_window;
 
-	vk::raii::SurfaceKHR surface = nullptr;
-
 	void init_window();
 
 	bool should_close();
 	void poll_events();
 
-	void create_surface(vk::raii::Instance& instance);
+	
 
 	void cleanup();
 

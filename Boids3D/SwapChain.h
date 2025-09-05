@@ -20,6 +20,7 @@
 #include "VulkanInclude.h"
 #include "Window.h"
 #include "PhysicalDevice.h"
+#include "GraphicsDevice.h"
 
 
 class SwapChain {
@@ -28,8 +29,8 @@ public:
 	vk::raii::SwapchainKHR swap_chain = nullptr;
 	std::vector<vk::Image> swap_chain_images;
 
-	void create_swap_chain(vk::raii::PhysicalDevice& physical_device, vk::raii::Device& device, vk::raii::SurfaceKHR& surface, GLFWwindow* window, const std::array<uint32_t, 2>& queue_family_indices);
-	void create_image_views(vk::raii::Device& device);
+	void create_swap_chain(GraphicsDevice& graphics_device, Surface& surface);
+	void create_image_views(GraphicsDevice& graphics_device);
 
 private:
 

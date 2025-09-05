@@ -9,13 +9,9 @@ void Application::run(){
 }
 
 void Application::init_vulkan(){
-	graphics_device.init_graphics_device(window);
-	swapchain.create_swap_chain(graphics_device.physical_device.physical_device, 
-								graphics_device.logical_device.device, 
-								window.surface, 
-								window.p_window, 
-								graphics_device.logical_device.queue_family_indices);
-	swapchain.create_image_views(graphics_device.logical_device.device);
+	renderer.set_window_ptr(window.p_window);
+	renderer.init_renderer();
+
 }
 
 void Application::main_loop(){
