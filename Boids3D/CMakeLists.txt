@@ -16,6 +16,9 @@ add_executable (Boids3D "Boids3D.cpp" "Boids3D.h"
                         "PhysicalDevice.h"
                         "LogicalDevice.cpp"
                         "LogicalDevice.h"
+                        "SwapChain.cpp"
+                        "SwapChain.h"
+
 )
 
 if (CMAKE_VERSION VERSION_GREATER 3.12)

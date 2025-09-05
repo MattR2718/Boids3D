@@ -3,6 +3,8 @@
 #include "VulkanInclude.h"
 #include "Window.h"
 #include "GraphicsDevice.h"
+#include "Swapchain.h"
+
 
 #include <print>
 
@@ -15,6 +17,7 @@ private:
 
 	GraphicsDevice graphics_device;
 	Window window;
+	SwapChain swapchain;
 
 	void init_vulkan();
 	void main_loop();

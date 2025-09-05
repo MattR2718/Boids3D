@@ -20,9 +20,11 @@
 
 class GraphicsDevice {
 public:
-	void init_graphics_device(Window& window);
-private:
 	VulkanInstance vulkan_instance;
 	PhysicalDevice physical_device;
 	LogicalDevice logical_device;
+
+	void init_graphics_device(Window& window);
+private:
+	
 };

@@ -71,6 +71,7 @@ void LogicalDevice::create_logical_device(PhysicalDevice& physical_device, vk::r
 
     std::vector<vk::DeviceQueueCreateInfo> queueInfos;
     queueInfos.push_back({ .queueFamilyIndex = graphicsIndex, .queueCount = 1, .pQueuePriorities = &queuePriority });
+    queue_family_indices = { graphicsIndex, presentIndex };
     if (presentIndex != graphicsIndex) {
         queueInfos.push_back({ .queueFamilyIndex = presentIndex, .queueCount = 1, .pQueuePriorities = &queuePriority });
     }

@@ -26,6 +26,7 @@
 
 class Window {
 public:
+	GLFWwindow* p_window;
 
 	vk::raii::SurfaceKHR surface = nullptr;
 
@@ -47,7 +48,6 @@ public:
 
 private:
 
-	GLFWwindow* p_window;
 
 
 	// Returns current monitor resolution, 1920 x 1080 default
