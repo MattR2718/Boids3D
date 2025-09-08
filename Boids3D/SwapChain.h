@@ -28,13 +28,14 @@ public:
 
 	vk::raii::SwapchainKHR swap_chain = nullptr;
 	std::vector<vk::Image> swap_chain_images;
+	vk::SurfaceFormatKHR surface_format;
+
 
 	void create_swap_chain(GraphicsDevice& graphics_device, Surface& surface);
 	void create_image_views(GraphicsDevice& graphics_device);
 
 private:
 
-	vk::SurfaceFormatKHR surface_format;
 	vk::Extent2D swap_chain_extent;
 
 	std::vector<vk::raii::ImageView> swap_chain_image_views;

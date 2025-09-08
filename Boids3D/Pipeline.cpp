@@ -1,11 +1,11 @@
 #include "Pipeline.h"
 
-void Pipeline::create_graphics_pipeline(const GraphicsDevice& graphics_device, const std::string& vertex_shader_filename, const std::string& fragment_shader_filename){
+void Pipeline::create_graphics_pipeline(const GraphicsDevice& graphics_device, const SwapChain& swapchain, const std::string& vertex_shader_filename, const std::string& fragment_shader_filename){
 	vk::raii::ShaderModule vertex_shader_module = Shader::create_shader_module(graphics_device, vertex_shader_filename);
 	vk::raii::ShaderModule fragment_shader_module = Shader::create_shader_module(graphics_device, fragment_shader_filename);
 
-	vk::PipelineShaderStageCreateInfo vert_shader_stage_info{ .stage = vk::ShaderStageFlagBits::eVertex, .module = vertex_shader_module, .pName = "vertMain" };
-	vk::PipelineShaderStageCreateInfo frag_shader_stage_info{ .stage = vk::ShaderStageFlagBits::eFragment, .module = fragment_shader_module, .pName = "fragMain"};
+	vk::PipelineShaderStageCreateInfo vert_shader_stage_info{ .stage = vk::ShaderStageFlagBits::eVertex, .module = vertex_shader_module, .pName = "main" };
+	vk::PipelineShaderStageCreateInfo frag_shader_stage_info{ .stage = vk::ShaderStageFlagBits::eFragment, .module = fragment_shader_module, .pName = "main"};
 
 	vk::PipelineShaderStageCreateInfo shader_stages[] = { vert_shader_stage_info, frag_shader_stage_info };
 
@@ -90,4 +90,25 @@ void Pipeline::create_graphics_pipeline(const GraphicsDevice& graphics_device, c
 	};
 
 	pipeline_layout = vk::raii::PipelineLayout(graphics_device.logical_device.device, pipeline_layout_info);
+
+	vk::PipelineRenderingCreateInfo pipeline_rendering_create_info{
+		.colorAttachmentCount = 1,
+		.pColorAttachmentFormats = &swapchain.surface_format.format
+	};
+	vk::GraphicsPipelineCreateInfo pipeline_info{
+		.pNext = &pipeline_rendering_create_info,
+		.stageCount = 2,
+		.pStages = shader_stages,
+		.pVertexInputState = &vertex_input_info,
+		.pInputAssemblyState = &input_assembly,
+		.pViewportState = &viewport_state,
+		.pRasterizationState = &rasterizer,
+		.pMultisampleState = &multisampling,
+		.pColorBlendState = &colour_blending,
+		.pDynamicState = &dynamic_state,
+		.layout = pipeline_layout,
+		.renderPass = nullptr			// Using dynamic rendering
+	};
+
+	graphics_pipeline = vk::raii::Pipeline(graphics_device.logical_device.device, nullptr, pipeline_info);
 }

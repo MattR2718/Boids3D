@@ -13,7 +13,7 @@ void Application::add_test_scene(){
 	Scene scene;
 
 	Material mat;
-	mat.pipeline.create_graphics_pipeline(renderer.graphics_device, "shaders/vert.spv", "shaders/frag.spv");
+	mat.pipeline.create_graphics_pipeline(renderer.graphics_device, renderer.swap_chain, "shaders/vert.spv", "shaders/frag.spv");
 
 }
 
