@@ -9,18 +9,11 @@ void Application::run(){
 	cleanup();
 }
 
-void Application::add_scene(const Scene& scene){
-	scenes.push_back(scene);
-}
-
 void Application::add_test_scene(){
 	Scene scene;
 
-	//Pipeline p;
-	p.create_graphics_pipeline(renderer.graphics_device, "shaders/vert.spv", "shaders/frag.spv");
-
 	Material mat;
-	mat.pipeline = &p;
+	mat.pipeline.create_graphics_pipeline(renderer.graphics_device, "shaders/vert.spv", "shaders/frag.spv");
 
 }
 

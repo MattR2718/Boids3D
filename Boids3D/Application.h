@@ -13,15 +13,12 @@ class Application {
 public:
 
 	void run();
-	void add_scene(const Scene& scene);
 	void add_test_scene();
 
 private:
 
 	Renderer renderer;
 	Window window;
-
-	Pipeline p;
 	
 	std::vector<Scene> scenes;
 

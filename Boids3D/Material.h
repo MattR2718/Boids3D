@@ -5,6 +5,6 @@
 #include "Pipeline.h"
 
 struct Material {
-    Pipeline* pipeline = nullptr;
+    Pipeline pipeline;
 	//vk::raii::DescriptorSet descriptor_set;
 };
