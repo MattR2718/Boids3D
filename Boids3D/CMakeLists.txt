@@ -31,7 +31,7 @@ add_executable (Boids3D "Boids3D.cpp" "Boids3D.h"
                         "RenderObject.h"
                         "Scene.cpp"
                         "Scene.h"
-)
+ "CommandBuffer.cpp" "CommandBuffer.h")
 
 if (CMAKE_VERSION VERSION_GREATER 3.12)
   set_property(TARGET Boids3D PROPERTY CXX_STANDARD 23)

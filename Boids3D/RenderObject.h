@@ -5,7 +5,7 @@
 #include "Material.h"
 
 struct RenderObject {
-	Mesh mesh;
-	Material material;
+	//std::shared_ptr<Mesh> mesh;
+	Material* material;
 	glm::mat4 transform;
 };

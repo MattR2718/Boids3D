@@ -13,7 +13,7 @@ class Application {
 public:
 
 	void run();
-	void add_test_scene();
+	//void add_test_scene();
 
 private:
 
@@ -21,6 +21,9 @@ private:
 	Window window;
 	
 	std::vector<Scene> scenes;
+
+	Scene s;
+
 
 	void init_vulkan();
 	void main_loop();
