@@ -1,6 +1,7 @@
 #pragma once
 
 #include <print>
+#include <vector>
 
 #include "VulkanInclude.h"
 #include "Window.h"
@@ -12,6 +13,8 @@
 
 class Scene;
 
+
+
 class Renderer {
 public:
 
@@ -20,6 +23,9 @@ public:
 	SwapChain swap_chain;
 	CommandBuffer command_buffer;
 
+	uint32_t current_frame = 0;
+	uint32_t semaphore_index = 0;
+
 	void set_window_ptr(GLFWwindow* window);
 	void init_renderer();
 	void draw_frame(const Scene* scene);
@@ -27,8 +33,8 @@ public:
 
 private:
 
-	vk::raii::Semaphore present_complete_semaphore = nullptr;
-	vk::raii::Semaphore render_finished_semaphore = nullptr;
-	vk::raii::Fence draw_fence = nullptr;
+	std::vector<vk::raii::Semaphore> present_complete_semaphores;
+	std::vector<vk::raii::Semaphore> render_finished_semaphores;
+	std::vector<vk::raii::Fence> in_flight_fences;
 
 };

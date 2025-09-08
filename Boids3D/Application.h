@@ -8,6 +8,7 @@
 #include "Scene.h"
 
 #include <print>
+#include <chrono>
 
 class Application {
 public:

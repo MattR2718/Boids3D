@@ -9,18 +9,19 @@ void CommandBuffer::create_command_pool(const GraphicsDevice& graphics_device){
 	command_pool = vk::raii::CommandPool(graphics_device.logical_device.device, pool_info);
 }
 
-void CommandBuffer::create_command_buffer(const GraphicsDevice& graphics_device){
+void CommandBuffer::create_command_buffers(const GraphicsDevice& graphics_device){
+	command_buffers.clear();
 	vk::CommandBufferAllocateInfo alloc_info{
 		.commandPool = command_pool,
 		.level = vk::CommandBufferLevel::ePrimary,
-		.commandBufferCount = 1
+		.commandBufferCount = MAX_FRAMES_IN_FLIGHT
 	};
 
-	command_buffer = std::move(vk::raii::CommandBuffers(graphics_device.logical_device.device, alloc_info).front());
+	command_buffers = vk::raii::CommandBuffers(graphics_device.logical_device.device, alloc_info);
 }
 
-void CommandBuffer::record_command_buffer(const GraphicsDevice& graphics_device, const SwapChain& swap_chain, uint32_t imageIndex, const Scene* scene){
-	command_buffer.begin({});
+void CommandBuffer::record_command_buffer(const GraphicsDevice& graphics_device, const SwapChain& swap_chain, uint32_t imageIndex, uint32_t current_frame, const Scene* scene){
+	command_buffers[current_frame].begin({});
 
 	// Before rendering starts, transision swapchain image to COLOR_ATTACHMENT_OPTIMAL
 	transition_image_layout(
@@ -31,7 +32,8 @@ void CommandBuffer::record_command_buffer(const GraphicsDevice& graphics_device,
 		vk::AccessFlagBits2::eColorAttachmentWrite,
 		vk::PipelineStageFlagBits2::eTopOfPipe,
 		vk::PipelineStageFlagBits2::eColorAttachmentOutput,
-		swap_chain
+		swap_chain,
+		current_frame
 	);
 
 	vk::ClearColorValue clear_colour_val(std::array<float, 4>{0.0f, 0.0f, 0.0f, 1.0f});
@@ -51,17 +53,17 @@ void CommandBuffer::record_command_buffer(const GraphicsDevice& graphics_device,
 		.pColorAttachments = &attachment_info
 	};
 
-	command_buffer.beginRendering(rendering_info);
+	command_buffers[current_frame].beginRendering(rendering_info);
 
 
 	for (const auto& render_object : (*scene).render_objects) {
-		command_buffer.bindPipeline(vk::PipelineBindPoint::eGraphics, render_object->material->pipeline.graphics_pipeline);
-		command_buffer.setViewport(0, vk::Viewport(0.0f, 0.0f, static_cast<float>(swap_chain.swap_chain_extent.width), static_cast<float>(swap_chain.swap_chain_extent.height), 0.0f, 1.0f));
-		command_buffer.setScissor(0, vk::Rect2D(vk::Offset2D(0, 0), swap_chain.swap_chain_extent));
-		command_buffer.draw(3, 1, 0, 0);
+		command_buffers[current_frame].bindPipeline(vk::PipelineBindPoint::eGraphics, render_object->material->pipeline.graphics_pipeline);
+		command_buffers[current_frame].setViewport(0, vk::Viewport(0.0f, 0.0f, static_cast<float>(swap_chain.swap_chain_extent.width), static_cast<float>(swap_chain.swap_chain_extent.height), 0.0f, 1.0f));
+		command_buffers[current_frame].setScissor(0, vk::Rect2D(vk::Offset2D(0, 0), swap_chain.swap_chain_extent));
+		command_buffers[current_frame].draw(3, 1, 0, 0);
 	}
 
-	command_buffer.endRendering();
+	command_buffers[current_frame].endRendering();
 
 	// After rendering, transition the swapchain image to PRESENT_SRC
 	transition_image_layout(
@@ -72,10 +74,11 @@ void CommandBuffer::record_command_buffer(const GraphicsDevice& graphics_device,
 		{},                                                      // dstAccessMask
 		vk::PipelineStageFlagBits2::eColorAttachmentOutput,        // srcStage
 		vk::PipelineStageFlagBits2::eBottomOfPipe,                  // dstStage
-		swap_chain
+		swap_chain,
+		current_frame
 	);
 	
-	command_buffer.end();
+	command_buffers[current_frame].end();
 }
 
 void CommandBuffer::transition_image_layout(uint32_t imageIndex, 
@@ -85,7 +88,8 @@ void CommandBuffer::transition_image_layout(uint32_t imageIndex,
 											vk::AccessFlags2 dstAccessMask, 
 											vk::PipelineStageFlags2 srcStageMask, 
 											vk::PipelineStageFlags2 dstStageMask,
-											const SwapChain& swap_chain)
+											const SwapChain& swap_chain,
+											const uint32_t current_frame)
 {
 	vk::ImageMemoryBarrier2 barrier = {
 		.srcStageMask = srcStageMask,
@@ -112,5 +116,5 @@ void CommandBuffer::transition_image_layout(uint32_t imageIndex,
 		.pImageMemoryBarriers = &barrier
 	};
 
-	command_buffer.pipelineBarrier2(dependency_info);
+	command_buffers[current_frame].pipelineBarrier2(dependency_info);
 }
