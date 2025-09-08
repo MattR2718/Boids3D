@@ -10,15 +10,15 @@
 class Renderer {
 public:
 
+	GraphicsDevice graphics_device;
+
 	void set_window_ptr(GLFWwindow* window);
 	void init_renderer();
 
 private:
 
-	GraphicsDevice graphics_device;
+	
 	Surface surface;
 	SwapChain swap_chain;
-	Pipeline pipeline;
-
 
 };

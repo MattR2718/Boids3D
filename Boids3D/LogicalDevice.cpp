@@ -59,8 +59,19 @@ void LogicalDevice::create_logical_device(PhysicalDevice& physical_device, vk::r
         To enable multiple sets of features, Vulkan uses a concept called "structure chaining." 
         Each feature structure has a pNext field that can point to another structure, creating a chain of feature requests.
     */
-    vk::StructureChain<vk::PhysicalDeviceFeatures2, vk::PhysicalDeviceVulkan13Features, vk::PhysicalDeviceExtendedDynamicStateFeaturesEXT> featureChain = {
-        {},                               // vk::PhysicalDeviceFeatures2
+    vk::StructureChain<vk::PhysicalDeviceFeatures2,
+                        vk::PhysicalDeviceVulkan11Features,
+                        vk::PhysicalDeviceVulkan13Features, 
+                        vk::PhysicalDeviceExtendedDynamicStateFeaturesEXT> featureChain = {
+        {
+            // Reminder where to set extra gpu features, need more than just commenting
+            //.features = {
+            //    .depthClamp = VK_TRUE, // required for depthClampEnable
+            //    .fillModeNonSolid = VK_TRUE, // required for LINE / POINT polygon modes
+            //    .wideLines = VK_TRUE  // required for lineWidth > 1.0f
+            //}
+        },                               // vk::PhysicalDeviceFeatures2
+        { .shaderDrawParameters = true }, // vk::PhysicalDevuceVulkan11Features
         {.dynamicRendering = true },      // vk::PhysicalDeviceVulkan13Features
         {.extendedDynamicState = true }   // vk::PhysicalDeviceExtendedDynamicStateFeaturesEXT
     };

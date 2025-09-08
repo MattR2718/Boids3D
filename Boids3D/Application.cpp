@@ -4,8 +4,24 @@
 void Application::run(){
 	window.init_window();
 	init_vulkan();
+	add_test_scene();
 	main_loop();
 	cleanup();
+}
+
+void Application::add_scene(const Scene& scene){
+	scenes.push_back(scene);
+}
+
+void Application::add_test_scene(){
+	Scene scene;
+
+	//Pipeline p;
+	p.create_graphics_pipeline(renderer.graphics_device, "shaders/vert.spv", "shaders/frag.spv");
+
+	Material mat;
+	mat.pipeline = &p;
+
 }
 
 void Application::init_vulkan(){

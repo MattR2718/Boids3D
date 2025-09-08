@@ -16,7 +16,7 @@ if not exist "%BUILD_DIR%" (
 :: Loop over all .slang files in SHADER_DIR
 for %%f in ("%SHADER_DIR%\*.slang") do (
     echo Compiling %%~nxf...
-    slangc "%%f" -o "%BUILD_DIR%\%%~nf.spv"
+    slangc -target spirv -profile spirv_1_4 -emit-spirv-directly "%%f" -o "%BUILD_DIR%\%%~nf.spv"
 )
 
 echo.

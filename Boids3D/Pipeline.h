@@ -11,12 +11,24 @@
 
 */
 
+#include <string>
+#include <vector>
+#include <print>
+
+#include "VulkanInclude.h"
+#include "Shader.h"
+#include "GraphicsDevice.h"
+
 class Pipeline {
 public:
 
+	//Pipeline() = default;
+
+	vk::raii::PipelineLayout pipeline_layout = nullptr;
+
+	void create_graphics_pipeline(const GraphicsDevice& graphics_device, const std::string& vertex_shader_filename, const std::string& fragment_shader_filename);
 
 private:
-
 
 
 };
