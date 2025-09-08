@@ -2,8 +2,9 @@
 
 #include <vector>
 
-#include "Renderer.h"
 #include "RenderObject.h"
+
+class Renderer;
 
 class Scene {
 public:

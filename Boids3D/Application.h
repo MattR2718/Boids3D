@@ -26,6 +26,7 @@ private:
 
 
 	void init_vulkan();
+	void init_command_buffer();
 	void main_loop();
 	void cleanup();
 };

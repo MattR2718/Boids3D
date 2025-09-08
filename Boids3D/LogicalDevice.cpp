@@ -62,7 +62,8 @@ void LogicalDevice::create_logical_device(PhysicalDevice& physical_device, vk::r
     vk::StructureChain<vk::PhysicalDeviceFeatures2,
                         vk::PhysicalDeviceVulkan11Features,
                         vk::PhysicalDeviceVulkan13Features, 
-                        vk::PhysicalDeviceExtendedDynamicStateFeaturesEXT> featureChain = {
+                        vk::PhysicalDeviceExtendedDynamicStateFeaturesEXT
+    > featureChain = {
         {
             // Reminder where to set extra gpu features, need more than just commenting
             //.features = {
@@ -71,9 +72,9 @@ void LogicalDevice::create_logical_device(PhysicalDevice& physical_device, vk::r
             //    .wideLines = VK_TRUE  // required for lineWidth > 1.0f
             //}
         },                               // vk::PhysicalDeviceFeatures2
-        { .shaderDrawParameters = true }, // vk::PhysicalDevuceVulkan11Features
-        {.dynamicRendering = true },      // vk::PhysicalDeviceVulkan13Features
-        {.extendedDynamicState = true }   // vk::PhysicalDeviceExtendedDynamicStateFeaturesEXT
+        { .shaderDrawParameters = VK_TRUE }, // vk::PhysicalDevuceVulkan11Features
+        {.synchronization2 = VK_TRUE, .dynamicRendering = VK_TRUE },      // vk::PhysicalDeviceVulkan13Features
+        {.extendedDynamicState = VK_TRUE },   // vk::PhysicalDeviceExtendedDynamicStateFeaturesEXT
     };
 
     // create a Device
