@@ -120,3 +120,25 @@ endif()
 
 target_link_libraries(Boids3D Vulkan::Vulkan glfw glm tinyobjloader)
 target_include_directories(Boids3D PRIVATE ${STB_INCLUDE_DIRS})
+
+
+
+
+if(WIN32)
+    # Paths
+    set(SHADER_SOURCE_DIR ${CMAKE_CURRENT_SOURCE_DIR}/shaders)
+    set(SHADER_OUTPUT_DIR ${CMAKE_CURRENT_BINARY_DIR}/shaders)
+
+    message("Shader Source Dir: ${SHADER_SOURCE_DIR}")
+    message("Shader Output Dir: ${SHADER_OUTPUT_DIR}")
+
+    # Add custom target to run the batch file
+    add_custom_target(CompileShaders
+    COMMAND cmd /c ${CMAKE_CURRENT_SOURCE_DIR}/compile_shaders.bat
+            ${SHADER_SOURCE_DIR} ${SHADER_OUTPUT_DIR}
+    WORKING_DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR}
+    COMMENT "Compiling shaders with slangc..."
+)
+
+add_dependencies(Boids3D CompileShaders)
+endif()
